@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, yaml
 
 def parse():
 
@@ -29,6 +29,16 @@ def save_json(data, output):
         print(f"Failed to save JSON file: {e}")
         sys.exit(1)
 
+def load_yaml(input):
+    try:
+        with open(input, 'r') as f:
+            data = yaml.safe_load(f)
+        print("YAML data loaded successfully")
+        return data
+    
+    except Exception as e:
+        print(f"Failed to load YAML file: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     input, output = parse()
@@ -37,3 +47,5 @@ if __name__ == "__main__":
         data = load_json(input)
         if output.endswith('.json'):
             save_json(data, output)
+    elif input.endswith('.yml') or input.endswith('.yaml'):
+        data = load_yaml(input)
