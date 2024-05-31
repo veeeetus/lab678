@@ -1,4 +1,4 @@
-import sys, json, yaml
+import sys, json, yaml, xmltodict
 
 def parse():
 
@@ -50,6 +50,17 @@ def save_yaml(data, output):
         print(f"Failed to save YAML file: {e}")
         sys.exit(1)
 
+def load_xml(input):
+    try:
+        with open(input, 'r') as f:
+            data = xmltodict.parse(f.read())
+        print("XML data loaded successfully")
+        return data
+    
+    except Exception as e:
+        print(f"Failed to load XML file: {e}")
+        sys.exit(1)
+
 if __name__ == "__main__":
     input, output = parse()
     print(f"Input file: {input}, Output file: {output}")
@@ -65,3 +76,5 @@ if __name__ == "__main__":
             save_json(data, output)
         elif output.endswith('.yml') or output.endswith('.yaml'):
             save_yaml(data, output)
+    elif input.endswith('.xml'):
+        data = load_xml(input)
