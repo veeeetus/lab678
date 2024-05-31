@@ -1,4 +1,4 @@
-import sys, json, yaml, xmltodict
+import sys, json, yaml, xmltodict, threading
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QFileDialog, QLabel
 
 def parse():
@@ -116,6 +116,10 @@ class ConverterApp(QWidget):
             self.output = file
 
     def convert_files(self):
+        self.thread = threading.Thread(target=self._convert_files)
+        self.thread.start()
+
+    def _convert_files(self):
         try:
             if self.input.endswith('.json'):
                 data = load_json(self.input)
