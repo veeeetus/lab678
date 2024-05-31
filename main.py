@@ -61,20 +61,39 @@ def load_xml(input):
         print(f"Failed to load XML file: {e}")
         sys.exit(1)
 
+def save_xml(data, output):
+    try:
+        with open(output, 'w') as f:
+            xmltodict.unparse(data, output=f, pretty=True)
+        print("XML data saved successfully")
+
+    except Exception as e:
+        print(f"Failed to save XML file: {e}")
+        sys.exit(1)
+
 if __name__ == "__main__":
     input, output = parse()
-    print(f"Input file: {input}, Output file: {output}")
     if input.endswith('.json'):
         data = load_json(input)
         if output.endswith('.json'):
             save_json(data, output)
         elif output.endswith('.yml') or output.endswith('.yaml'):
             save_yaml(data, output)
+        elif output.endswith('.xml'):
+            save_xml(data, output)
     elif input.endswith('.yml') or input.endswith('.yaml'):
         data = load_yaml(input)
         if output.endswith('.json'):
             save_json(data, output)
         elif output.endswith('.yml') or output.endswith('.yaml'):
             save_yaml(data, output)
+        elif output.endswith('.xml'):
+            save_xml(data, output)
     elif input.endswith('.xml'):
         data = load_xml(input)
+        if output.endswith('.json'):
+            save_json(data, output)
+        elif output.endswith('.yml') or output.endswith('.yaml'):
+            save_yaml(data, output)
+        elif output.endswith('.xml'):
+            save_xml(data, output)
