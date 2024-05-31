@@ -1,4 +1,4 @@
-import sys
+import sys, json
 
 def parse():
 
@@ -8,6 +8,19 @@ def parse():
 
     return sys.argv[1], sys.argv[2]
 
+def load_json(input):
+    try:
+        with open(input, 'r') as f:
+            data = json.load(f)
+        print("JSON data loaded successfully")
+        return data
+    
+    except Exception as e:
+        print(f"Failed to load JSON file: {e}")
+        sys.exit(1)
+
 if __name__ == "__main__":
     input, output = parse()
-    print(f"Input: {input}, Output: {output}")
+    print(f"Input file: {input}, Output file: {output}")
+    if input.endswith('.json'):
+        data = load_json(input)
